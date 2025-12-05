@@ -1,2 +1,14 @@
 backend/.vs/
 Notes.txt
+backend/ShopOnline.Common/bin/
+backend/ShopOnline.Common/obj/
+backend/ShopOnline.IdentityServer/bin/
+backend/ShopOnline.IdentityServer/tempkey.jwk
+backend/ShopOnline.IdentityServer/keys/is-signing-key-25C9AF914A87F9BF13587ABD749737CB.json
+backend/ShopOnline.IdentityServer/obj/
+backend/ShopOnline.MvcClient/bin/
+backend/ShopOnline.MvcClient/obj/
+backend/ShopOnlineApi.Tests/bin/
+backend/ShopOnlineApi.Tests/obj/
+backend/ShopOnlineApi/bin/
+backend/ShopOnlineApi/obj/

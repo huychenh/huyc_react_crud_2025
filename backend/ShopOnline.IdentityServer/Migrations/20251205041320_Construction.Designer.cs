@@ -12,7 +12,7 @@ using ShopOnline.IdentityServer.Models;
 namespace ShopOnline.IdentityServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250717020920_Construction")]
+    [Migration("20251205041320_Construction")]
     partial class Construction
     {
         /// <inheritdoc />

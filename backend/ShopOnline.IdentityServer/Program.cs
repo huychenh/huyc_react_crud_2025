@@ -43,6 +43,14 @@ builder.Services.AddAuthentication("Cookies").AddCookie("Cookies");
 
 var app = builder.Build();
 
+// --- Seed Data ---
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedData.InitializeAsync(services);
+}
+// ------------------
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
