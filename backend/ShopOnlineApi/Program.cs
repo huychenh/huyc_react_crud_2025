@@ -50,6 +50,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add DI for services
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 // Add Authentication using Duende IdentityServer (OAuth2/OIDC)

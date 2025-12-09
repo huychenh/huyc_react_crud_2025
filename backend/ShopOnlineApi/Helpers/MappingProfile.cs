@@ -8,9 +8,15 @@ namespace ShopOnline.Api.Helpers
     {
         public MappingProfile()
         {
+            //Product mappings
             CreateMap<Product, ProductReadDto>();
             CreateMap<ProductCreateDto, Product>();
             CreateMap<ProductUpdateDto, Product>();
+
+            //User mappings
+            CreateMap<User, UserReadDto>();
+            CreateMap<UserCreateDto, User>();
+            CreateMap<UserUpdateDto, User>();
         }
     }
 }
