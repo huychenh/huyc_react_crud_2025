@@ -30,8 +30,23 @@ namespace ShopOnline.IdentityServer.Configuration
                     AllowPlainTextPkce = false,
                     AllowAccessTokensViaBrowser = true,
                     AllowOfflineAccess = true,
-                    AlwaysIncludeUserClaimsInIdToken = true
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    RequireConsent = false
+                },
+                new Client
+                {
+                    ClientId = "shop_online_react_client",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = false, // SPA does not use secrets.
+                    RedirectUris = { "http://localhost:5173/signin-oidc" },
+                    PostLogoutRedirectUris = { "https://localhost:5173/signout-callback-oidc" },
+                    AllowedCorsOrigins = { "http://localhost:5173" },                    
+                    AllowedScopes = { "openid", "profile", "shop_online_api" },
+                    RequirePkce = true,
+                    AllowAccessTokensViaBrowser = true,
+                    RequireConsent = false
                 }
+
             ];
 
         public static IEnumerable<ApiResource> ApiResources =>
