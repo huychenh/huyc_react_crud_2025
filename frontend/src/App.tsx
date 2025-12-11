@@ -87,28 +87,35 @@ function App() {
         }}
       >
         {!user && (
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              handleLogin();
-            }}
-            style={{
-              textDecoration: "none",
-              color: "#007bff",
-              fontWeight: 500,
-              cursor: "pointer",
-              transition: "color 0.2s, text-decoration 0.2s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.textDecoration = "underline";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.textDecoration = "none";
-            }}
-          >
-            Login
-          </a>
+          <div>            
+            <span style={{ fontWeight: 500, marginRight: 12 }}>
+              Hi Guest
+            </span>
+            |
+            &nbsp;
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogin();
+              }}
+              style={{
+                textDecoration: "none",
+                color: "#007bff",
+                fontWeight: 500,
+                cursor: "pointer",
+                transition: "color 0.2s, text-decoration 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.textDecoration = "underline";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.textDecoration = "none";
+              }}
+            >
+              Login
+            </a>
+          </div>
         )}
 
         {user && (
@@ -116,7 +123,8 @@ function App() {
             <span style={{ fontWeight: 500, marginRight: 12 }}>
               Hi {user.name} ({user.role})
             </span>
-
+            |
+            &nbsp;
             <a
               href="#"
               onClick={(e) => {
@@ -124,24 +132,22 @@ function App() {
                 handleLogout();
               }}
               style={{
-                padding: "6px 16px",
-                borderRadius: 6,
                 textDecoration: "none",
-                background: "#dc3545",
-                color: "#fff",
+                color: "#dc3545",
                 fontWeight: 500,
-                transition: "background 0.2s",
-                display: "inline-block",
+                cursor: "pointer",
+                transition: "color 0.2s, text-decoration 0.2s",
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "#a71d2a")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "#dc3545")
-              }
+              onMouseEnter={(e) => {
+                e.currentTarget.style.textDecoration = "underline";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.textDecoration = "none";
+              }}
             >
               Logout
             </a>
+
           </div>
         )}
       </div>

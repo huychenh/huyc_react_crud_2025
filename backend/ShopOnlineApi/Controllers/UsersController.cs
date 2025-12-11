@@ -9,7 +9,6 @@ namespace ShopOnline.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController(IUserService service) : ControllerBase
     {
-        //[Authorize]
         [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll()
         {
@@ -23,7 +22,6 @@ namespace ShopOnline.Api.Controllers
             return Ok(result);
         }
 
-        //[Authorize]
         [HttpGet("getbyid/{id}")]
         public async Task<ActionResult<UserReadDto>> GetById(int id)
         {
@@ -31,7 +29,7 @@ namespace ShopOnline.Api.Controllers
             return User is null ? NotFound() : Ok(User);
         }
 
-        //[Authorize(Policy = "RequireAdmin")]
+        [Authorize(Policy = "RequireAdmin")]
         [HttpPost("create")]
         public async Task<ActionResult<UserReadDto>> Create(UserCreateDto dto)
         {
@@ -39,7 +37,7 @@ namespace ShopOnline.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = createdDto.Id }, createdDto);
         }
 
-        //[Authorize(Policy = "RequireAdmin")]        
+        [Authorize(Policy = "RequireAdmin")]
         [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, UserUpdateDto dto)
         {
@@ -47,7 +45,7 @@ namespace ShopOnline.Api.Controllers
             return result ? NoContent() : NotFound();
         }
 
-        //[Authorize(Policy = "RequireAdmin")]        
+        [Authorize(Policy = "RequireAdmin")]        
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
