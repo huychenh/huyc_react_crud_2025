@@ -1,25 +1,26 @@
 import { useEffect, useState } from "react";
 import type { User } from "../../types/user";
-import { GET_USERS_API_URL } from "../../api/endpoints";
-import type { UsersResponse } from "../../types/user-response";
 import type { UserListProps } from "../../interfaces/user-list-props";
+import { GET_USERS_LIST_URL } from "../../api/endpoints";
 
-export default function UserList({ onViewUser, onEditUser, onDeleteUser }: UserListProps) {
+export default function UserList({ onViewUser, onEditUser, onDeleteUser, refresh }: UserListProps) {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        fetch(GET_USERS_API_URL)
-            .then((res) => res.json())
-            .then((data: UsersResponse) => {
-                setUsers(data.users);
+        fetch(GET_USERS_LIST_URL)
+            .then(res => res.json())
+            .then((data) => {
+                console.log("API DATA:", data);
+                setUsers(data);
                 setLoading(false);
             })
-            .catch((err) => {
+            .catch(err => {
                 console.error("Error when fetch API:", err);
                 setLoading(false);
             });
-    }, []);
+    }, [refresh]);
+
 
     if (loading) return <p>Loading...</p>;
 
@@ -32,6 +33,11 @@ export default function UserList({ onViewUser, onEditUser, onDeleteUser }: UserL
                         <th style={{ border: "1px solid #ccc", padding: "8px" }}>First Name</th>
                         <th style={{ border: "1px solid #ccc", padding: "8px" }}>Last Name</th>
                         <th style={{ border: "1px solid #ccc", padding: "8px" }}>Email</th>
+
+                        {/* NEW FIELDS */}
+                        <th style={{ border: "1px solid #ccc", padding: "8px" }}>Created Date</th>
+                        <th style={{ border: "1px solid #ccc", padding: "8px" }}>Updated Date</th>
+
                         <th style={{ border: "1px solid #ccc", padding: "8px" }}>Actions</th>
                     </tr>
                 </thead>
@@ -42,6 +48,14 @@ export default function UserList({ onViewUser, onEditUser, onDeleteUser }: UserL
                             <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.firstName}</td>
                             <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.lastName}</td>
                             <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.email}</td>
+
+                            {/* NEW FIELDS */}
+                            <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                                {new Date(user.createdDate).toLocaleString()}
+                            </td>
+                            <td style={{ border: "1px solid #ccc", padding: "8px" }}>
+                                {new Date(user.updatedDate).toLocaleString()}
+                            </td>
 
                             <td style={{ border: "1px solid #ccc", padding: "8px" }}>
                                 <a
@@ -58,7 +72,7 @@ export default function UserList({ onViewUser, onEditUser, onDeleteUser }: UserL
                                 >
                                     Edit
                                 </a>
-                                |                                
+                                |
                                 <a href="#"
                                     style={{ marginLeft: "8px", color: "red" }}
                                     onClick={() => onDeleteUser && onDeleteUser(user.id)}

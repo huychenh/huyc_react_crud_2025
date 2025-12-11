@@ -14,5 +14,9 @@ namespace ShopOnline.Api.Models
 
         [Required]
         public required string Email { get; set; }
+                
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+                
+        public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
     }
 }

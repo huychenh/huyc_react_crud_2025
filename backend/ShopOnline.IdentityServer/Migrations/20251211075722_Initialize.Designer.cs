@@ -12,8 +12,8 @@ using ShopOnline.IdentityServer.Models;
 namespace ShopOnline.IdentityServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251205041320_Construction")]
-    partial class Construction
+    [Migration("20251211075722_Initialize")]
+    partial class Initialize
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,15 +1,13 @@
 import { useState } from "react";
-import type { User } from "../../types/user";
-import { ADD_USER_API_URL } from "../../api/endpoints";
 import "./User.css";
 import type { UserAddProps } from "../../interfaces/user-add-props";
+import { CREATE_USER_URL } from "../../api/endpoints";
 
-export default function UserAdd({ onClose }: UserAddProps) {
+export default function UserAdd({ onClose, onSuccess }: UserAddProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
-  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,24 +20,36 @@ export default function UserAdd({ onClose }: UserAddProps) {
     setLoading(true);
     setError(null);
 
-    fetch(ADD_USER_API_URL, {
+    fetch(CREATE_USER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ firstName, lastName, email }),
     })
-      .then((res) => res.json())
-      .then((data: User) => {
-        setUser(data);
+      .then(async (res) => {
+        if (!res.ok) {
+          const msg = await res.text();
+          throw new Error(msg || "Failed to add user");
+        }
+        return res.json();
+      })
+      .then(() => {
         setLoading(false);
+
+        if (onSuccess)
+          onSuccess();
+        onClose();
+
+        // reset form
         setFirstName("");
         setLastName("");
         setEmail("");
       })
-      .catch(() => {
-        setError("Error adding user");
+      .catch((err) => {
+        setError(err.message || "Error adding user");
         setLoading(false);
       });
   };
+
 
   return (
     <div className="modal-overlay">
@@ -96,30 +106,6 @@ export default function UserAdd({ onClose }: UserAddProps) {
           <button className="modal-button" onClick={handleAddUser}>Save</button>
           <button className="modal-button" style={{ marginLeft: 10, background: "#6c757d" }} onClick={onClose}>Close</button>
         </div>
-
-        {user && (
-          <div className="modal-info-wrapper" style={{ marginTop: 10 }}>
-            <h3>Added User</h3>
-            <table style={{ borderCollapse: "collapse", width: "100%" }}>
-              <thead>
-                <tr>
-                  <th style={{ border: "1px solid #ccc", padding: 8 }}>ID</th>
-                  <th style={{ border: "1px solid #ccc", padding: 8 }}>First Name</th>
-                  <th style={{ border: "1px solid #ccc", padding: 8 }}>Last Name</th>
-                  <th style={{ border: "1px solid #ccc", padding: 8 }}>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style={{ border: "1px solid #ccc", padding: 8 }}>{user.id}</td>
-                  <td style={{ border: "1px solid #ccc", padding: 8 }}>{user.firstName}</td>
-                  <td style={{ border: "1px solid #ccc", padding: 8 }}>{user.lastName}</td>
-                  <td style={{ border: "1px solid #ccc", padding: 8 }}>{user.email}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        )}
       </div>
     </div>
   );

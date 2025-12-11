@@ -4,7 +4,7 @@ import UserList from './components/users/UserList'
 import UserUpdate from './components/users/UserUpdate'
 import UserDelete from './components/users/UserDelete'
 import UserAdd from './components/users/UserAdd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import UserDetail from './components/users/UserDetail'
 
 interface UserInfo {
@@ -18,6 +18,10 @@ function App() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [message, setMessage] = useState<string | null>(null);
+  const [refreshFlag, setRefreshFlag] = useState(0);
+
 
   // State login
   const [user, setUser] = useState<UserInfo | null>(null);
@@ -45,78 +49,116 @@ function App() {
     setUser(null);
   };
 
+  // Auto hide message
+  useEffect(() => {
+    if (!message) return;
+
+    const timer = setTimeout(() => {
+      setMessage(null);
+    }, 5000); // 5 seconds
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
+
   return (
     <>
-      {/* Header */}
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: 16
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <a href="https://react.dev" target="_blank">
-            <img src={reactLogo} className="logo react" alt="React logo" />
+      {/* Header Top (Logo + Title) */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 16,
+        }}
+      >
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+        <h1>Simple CRUD React</h1>
+      </div>
+
+      {/* User menu (NEW LINE, RIGHT-ALIGNED) */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          marginTop: 10,
+          marginBottom: 20,
+        }}
+      >
+        {!user && (
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}
+            style={{
+              textDecoration: "none",
+              color: "#007bff",
+              fontWeight: 500,
+              cursor: "pointer",
+              transition: "color 0.2s, text-decoration 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.textDecoration = "underline";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.textDecoration = "none";
+            }}
+          >
+            Login
           </a>
-          <h1>Simple CRUD React</h1>
-        </div>
+        )}
 
-        <p>&nbsp;</p>
+        {user && (
+          <div>
+            <span style={{ fontWeight: 500, marginRight: 12 }}>
+              Hi {user.name} ({user.role})
+            </span>
 
-        {/* User menu */}
-        <div style={{ marginTop: 12 }}>
-          {!user && (
             <a
               href="#"
-              onClick={(e) => { e.preventDefault(); handleLogin(); }}
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogout();
+              }}
               style={{
-                textDecoration: 'none',
-                color: '#007bff',
+                padding: "6px 16px",
+                borderRadius: 6,
+                textDecoration: "none",
+                background: "#dc3545",
+                color: "#fff",
                 fontWeight: 500,
-                cursor: 'pointer',
-                transition: 'color 0.2s, text-decoration 0.2s',
+                transition: "background 0.2s",
+                display: "inline-block",
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.textDecoration = 'underline';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.textDecoration = 'none';
-              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background = "#a71d2a")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = "#dc3545")
+              }
             >
-              Login
+              Logout
             </a>
-
-          )}
-
-          {user && (
-            <div style={{ marginTop: 8 }}>
-              <span style={{ fontWeight: 500, marginRight: 12 }}>
-                Hi {user.name} ({user.role})
-              </span>
-              <a
-                href="#"
-                onClick={(e) => { e.preventDefault(); handleLogout(); }}
-                style={{
-                  padding: '6px 16px',
-                  borderRadius: 6,
-                  textDecoration: 'none',
-                  background: '#dc3545',
-                  color: '#fff',
-                  fontWeight: 500,
-                  transition: 'background 0.2s',
-                  display: 'inline-block',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = '#a71d2a')}
-                onMouseLeave={(e) => (e.currentTarget.style.background = '#dc3545')}
-              >
-                Logout
-              </a>
-            </div>
-          )}
-        </div>
-
-
+          </div>
+        )}
       </div>
+
+      {message && (
+        <div style={{
+          background: "#d1e7dd",
+          border: "1px solid #0f5132",
+          padding: "10px 15px",
+          borderRadius: 6,
+          color: "#0f5132",
+          marginTop: 10
+        }}>
+          {message}
+        </div>
+      )}
+
 
       {/* User List Header */}
       <div className="header-container" style={{ marginTop: 20 }}>
@@ -128,6 +170,7 @@ function App() {
 
       {/* List */}
       <UserList
+        refresh={refreshFlag}
         onViewUser={handleViewUser}
         onEditUser={handleEditUser}
         onDeleteUser={handleDeleteUser}
@@ -140,21 +183,46 @@ function App() {
           onClose={() => setShowDetailModal(false)}
         />
       )}
-      {showAddModal && <UserAdd onClose={() => setShowAddModal(false)} />}
+
+      {showAddModal && (
+        <UserAdd
+          onClose={() => setShowAddModal(false)}
+          onSuccess={() => {
+            setMessage("User added successfully!");
+            setRefreshFlag(prev => prev + 1);
+            setShowAddModal(false);
+          }}
+        />
+      )}
+
       {showUpdateModal && selectedUserId && (
         <UserUpdate
           userId={selectedUserId}
           onClose={() => setShowUpdateModal(false)}
+          onSuccess={() => {
+            setMessage("User updated successfully!");
+            setRefreshFlag(prev => prev + 1);
+          }}
         />
       )}
+
+
+
       {showDeleteModal && selectedUserId && (
         <UserDelete
           userId={selectedUserId}
           onClose={() => setShowDeleteModal(false)}
+          onSuccess={() => {
+            setMessage("User deleted successfully!");
+            setRefreshFlag(prev => prev + 1);
+            setShowDeleteModal(false);
+          }}
         />
       )}
+
     </>
-  )
-}
+  );
+};
 
 export default App;
+

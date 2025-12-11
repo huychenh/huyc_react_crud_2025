@@ -21,9 +21,26 @@ namespace ShopOnline.Api.Data
             );
 
             modelBuilder.Entity<User>().HasData(
-               new User { Id = 1, FirstName = "Emily", LastName = "Johnson", Email = "emily.johnson@x.dummyjson.com" },
-               new User { Id = 2, FirstName = "Michael", LastName = "Williams", Email = "michael.williams@x.dummyjson.com" }
-           );
+                new User
+                {
+                    Id = 1,
+                    FirstName = "Emily",
+                    LastName = "Johnson",
+                    Email = "emily.johnson@x.dummyjson.com",
+                    CreatedDate = DateTime.UtcNow,
+                    UpdatedDate = DateTime.UtcNow
+                },
+                new User
+                {
+                    Id = 2,
+                    FirstName = "Michael",
+                    LastName = "Williams",
+                    Email = "michael.williams@x.dummyjson.com",
+                    CreatedDate = DateTime.UtcNow,
+                    UpdatedDate = DateTime.UtcNow
+                }
+            );
+
         }
 
     }

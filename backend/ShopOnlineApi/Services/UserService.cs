@@ -18,21 +18,21 @@ namespace ShopOnline.Api.Services
 
         public async Task<IEnumerable<UserReadDto>> GetAllAsync()
         {
-            var Users = await _repo.GetAllAsync();
-            return _mapper.Map<IEnumerable<UserReadDto>>(Users);
+            var users = await _repo.GetAllAsync();
+            return _mapper.Map<IEnumerable<UserReadDto>>(users);
         }
 
         public async Task<UserReadDto?> GetByIdAsync(int id)
         {
-            var User = await _repo.GetByIdAsync(id);
-            return User == null ? null : _mapper.Map<UserReadDto>(User);
+            var user = await _repo.GetByIdAsync(id);
+            return user == null ? null : _mapper.Map<UserReadDto>(user);
         }
 
         public async Task<UserReadDto> AddAsync(UserCreateDto dto)
         {
-            var User = _mapper.Map<User>(dto);
-            await _repo.AddAsync(User);
-            return _mapper.Map<UserReadDto>(User);
+            var user = _mapper.Map<User>(dto);
+            await _repo.AddAsync(user);
+            return _mapper.Map<UserReadDto>(user);
         }
 
         public async Task<bool> UpdateAsync(int id, UserUpdateDto dto)

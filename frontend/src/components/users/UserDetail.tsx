@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import type { User } from "../../types/user";
-import { GET_USER_API_URL } from "../../api/endpoints";
+
 import type { UserDetailProps } from "../../interfaces/user-detail-props";
 import "./User.css";
+import { GET_USER_BY_ID_URL } from "../../api/endpoints";
 
 export default function UserDetail({ userId, onClose }: UserDetailProps) {
   const [user, setUser] = useState<User | null>(null);
@@ -11,8 +12,11 @@ export default function UserDetail({ userId, onClose }: UserDetailProps) {
   useEffect(() => {
     setLoading(true);
 
-    fetch(GET_USER_API_URL(userId))
-      .then(res => res.json())
+    fetch(GET_USER_BY_ID_URL(userId))
+      .then(res => {
+        if (!res.ok) throw new Error("User not found");
+        return res.json();
+      })
       .then((data: User) => {
         setUser(data);
         setLoading(false);
@@ -31,6 +35,7 @@ export default function UserDetail({ userId, onClose }: UserDetailProps) {
 
         {user && (
           <div className="modal-info-wrapper">
+
             <div className="modal-info-row">
               <span className="modal-label">ID:</span>
               <span className="modal-value">{user.id}</span>
@@ -50,6 +55,22 @@ export default function UserDetail({ userId, onClose }: UserDetailProps) {
               <span className="modal-label">Email:</span>
               <span className="modal-value">{user.email}</span>
             </div>
+
+            {/* NEW FIELDS */}
+            <div className="modal-info-row">
+              <span className="modal-label">Created Date:</span>
+              <span className="modal-value">
+                {new Date(user.createdDate).toLocaleString()}
+              </span>
+            </div>
+
+            <div className="modal-info-row">
+              <span className="modal-label">Updated Date:</span>
+              <span className="modal-value">
+                {new Date(user.updatedDate).toLocaleString()}
+              </span>
+            </div>
+
           </div>
         )}
 

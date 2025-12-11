@@ -10,7 +10,7 @@ namespace ShopOnline.Api.Controllers
     public class UsersController(IUserService service) : ControllerBase
     {
         //[Authorize]
-        [HttpGet]
+        [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll()
         {
             //Console.WriteLine("User Claims:");
@@ -24,7 +24,7 @@ namespace ShopOnline.Api.Controllers
         }
 
         //[Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("getbyid/{id}")]
         public async Task<ActionResult<UserReadDto>> GetById(int id)
         {
             var User = await service.GetByIdAsync(id);
@@ -32,23 +32,23 @@ namespace ShopOnline.Api.Controllers
         }
 
         //[Authorize(Policy = "RequireAdmin")]
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<UserReadDto>> Create(UserCreateDto dto)
         {
             var createdDto = await service.AddAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = createdDto.Id }, createdDto);
         }
 
-        //[Authorize(Policy = "RequireAdmin")]
-        [HttpPut("{id}")]
+        //[Authorize(Policy = "RequireAdmin")]        
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, UserUpdateDto dto)
         {
             var result = await service.UpdateAsync(id, dto);
             return result ? NoContent() : NotFound();
         }
 
-        //[Authorize(Policy = "RequireAdmin")]
-        [HttpDelete("{id}")]
+        //[Authorize(Policy = "RequireAdmin")]        
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await service.DeleteAsync(id);

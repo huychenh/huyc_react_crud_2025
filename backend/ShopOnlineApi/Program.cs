@@ -93,14 +93,16 @@ authBuilder.AddPolicy("RequireAdmin", policy =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowMvcClient",
-        policy =>
-        {
-            policy.WithOrigins(builder.Configuration.GetSection("BaseURLSettings")["ShopOnline_MvcClient_Url"])
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .AllowCredentials();
-        });
+    options.AddPolicy("AllowAllClients", policy =>
+    {
+        policy.WithOrigins(
+            builder.Configuration["BaseURLSettings:ShopOnline_MvcClient_Url"],
+            builder.Configuration["BaseURLSettings:ShopOnline_ReactClient_Url"]
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
+    });
 });
 
 
@@ -127,7 +129,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowMvcClient");
+app.UseCors("AllowAllClients");
 
 app.UseAuthentication();
 app.UseAuthorization();

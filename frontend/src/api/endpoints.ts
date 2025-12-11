@@ -1,10 +1,11 @@
-export const BASE_API_URL = "https://dummyjson.com";
-export const GET_USERS_API_URL = `${BASE_API_URL}/users`;
-export const ADD_USER_API_URL = `${BASE_API_URL}/users/add`;
-export const DELETE_USER_API_URL = (userId: number | string) => `${BASE_API_URL}/users/${userId}`;
-export const GET_USER_API_URL = (userId: number | string) => `${BASE_API_URL}/users/${userId}`;
-export const PATCH_USER_API_URL = (userId: number | string) => `${BASE_API_URL}/users/${userId}`;
-export const UPDATE_USER_API_URL = (userId: number | string) => `${BASE_API_URL}/users/${userId}`;
+export const BASE_API_URL = "https://localhost:7210/api";
+
+//Users
+export const GET_USERS_LIST_URL = `${BASE_API_URL}/users/list`;
+export const GET_USER_BY_ID_URL = (userId: number | string) => `${BASE_API_URL}/users/getbyid/${userId}`;
+export const CREATE_USER_URL = `${BASE_API_URL}/users/create`;
+export const UPDATE_USER_URL = (userId: number | string) => `${BASE_API_URL}/users/update/${userId}`;
+export const DELETE_USER_URL = (userId: number | string) => `${BASE_API_URL}/users/delete/${userId}`;
 
 
 
