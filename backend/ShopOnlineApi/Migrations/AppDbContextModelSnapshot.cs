@@ -100,20 +100,20 @@ namespace ShopOnline.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3547),
+                            CreatedDate = new DateTime(2025, 12, 12, 14, 4, 11, 547, DateTimeKind.Utc).AddTicks(1091),
                             Email = "emily.johnson@x.dummyjson.com",
                             FirstName = "Emily",
                             LastName = "Johnson",
-                            UpdatedDate = new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3548)
+                            UpdatedDate = new DateTime(2025, 12, 12, 14, 4, 11, 547, DateTimeKind.Utc).AddTicks(1092)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3549),
+                            CreatedDate = new DateTime(2025, 12, 12, 14, 4, 11, 547, DateTimeKind.Utc).AddTicks(1094),
                             Email = "michael.williams@x.dummyjson.com",
                             FirstName = "Michael",
                             LastName = "Williams",
-                            UpdatedDate = new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3550)
+                            UpdatedDate = new DateTime(2025, 12, 12, 14, 4, 11, 547, DateTimeKind.Utc).AddTicks(1095)
                         });
                 });
 #pragma warning restore 612, 618

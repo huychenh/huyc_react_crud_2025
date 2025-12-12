@@ -12,12 +12,6 @@ namespace ShopOnline.Api.Controllers
         [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAll()
         {
-            //Console.WriteLine("User Claims:");
-            //foreach (var claim in User.Claims)
-            //{
-            //    Console.WriteLine($" - {claim.Type,-25}: {claim.Value}");
-            //}
-
             var result = await service.GetAllAsync();
             return Ok(result);
         }

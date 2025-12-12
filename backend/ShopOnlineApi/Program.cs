@@ -110,16 +110,6 @@ var app = builder.Build();
 
 app.Use(async (context, next) =>
 {
-    if (context.User.Identity?.IsAuthenticated == true)
-    {
-        Console.WriteLine("Claims:");
-        foreach (var claim in context.User.Claims)
-        {
-            Console.WriteLine($" - {claim.Type}: {claim.Value}");
-        }
-    }
-
-    Console.WriteLine("Authorization Header: " + context.Request.Headers["Authorization"]);
     await next.Invoke();
 });
 

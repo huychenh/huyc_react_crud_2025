@@ -41,7 +41,7 @@ namespace ShopOnline.MvcClient.Controllers
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                 var apiBase = _configuration["BaseURLSettings:ShopOnline_Api_Url"]; //https://localhost:7210                
-                var response = await client.GetAsync($"{apiBase}/api/products");
+                var response = await client.GetAsync($"{apiBase}/api/products/list");
 
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {
@@ -98,7 +98,7 @@ namespace ShopOnline.MvcClient.Controllers
                 var apiBase = _configuration["BaseURLSettings:ShopOnline_Api_Url"];
                 var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"{apiBase}/api/products", content);
+                var response = await client.PostAsync($"{apiBase}/api/products/create", content);
 
                 if (response.StatusCode == HttpStatusCode.Unauthorized)
                 {

@@ -38,6 +38,14 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// --- Seed Data ---
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedData.InitializeAsync(services);
+}
+// ------------------
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();

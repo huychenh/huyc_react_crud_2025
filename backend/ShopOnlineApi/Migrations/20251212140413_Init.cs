@@ -60,8 +60,8 @@ namespace ShopOnline.Api.Migrations
                 columns: new[] { "Id", "CreatedDate", "Email", "FirstName", "LastName", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3547), "emily.johnson@x.dummyjson.com", "Emily", "Johnson", new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3548) },
-                    { 2, new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3549), "michael.williams@x.dummyjson.com", "Michael", "Williams", new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3550) }
+                    { 1, new DateTime(2025, 12, 12, 14, 4, 11, 547, DateTimeKind.Utc).AddTicks(1091), "emily.johnson@x.dummyjson.com", "Emily", "Johnson", new DateTime(2025, 12, 12, 14, 4, 11, 547, DateTimeKind.Utc).AddTicks(1092) },
+                    { 2, new DateTime(2025, 12, 12, 14, 4, 11, 547, DateTimeKind.Utc).AddTicks(1094), "michael.williams@x.dummyjson.com", "Michael", "Williams", new DateTime(2025, 12, 12, 14, 4, 11, 547, DateTimeKind.Utc).AddTicks(1095) }
                 });
         }
 

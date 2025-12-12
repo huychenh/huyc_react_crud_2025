@@ -10,21 +10,15 @@ namespace ShopOnline.Api.Controllers
     public class ProductsController(IProductService service) : ControllerBase
     {
         [Authorize]
-        [HttpGet]
+        [HttpGet("list")]
         public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAll()
         {
-            Console.WriteLine("User Claims:");
-            foreach (var claim in User.Claims)
-            {
-                Console.WriteLine($" - {claim.Type,-25}: {claim.Value}");
-            }
-
             var result = await service.GetAllAsync();
             return Ok(result);
         }
 
         [Authorize]
-        [HttpGet("{id}")]
+        [HttpGet("getbyid/{id}")]
         public async Task<ActionResult<ProductReadDto>> GetById(int id)
         {
             var product = await service.GetByIdAsync(id);
@@ -32,15 +26,15 @@ namespace ShopOnline.Api.Controllers
         }
 
         [Authorize(Policy = "RequireAdmin")]
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<ActionResult<ProductReadDto>> Create(ProductCreateDto dto)
         {
             var createdDto = await service.AddAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = createdDto.Id }, createdDto);
         }
 
-        [Authorize(Policy = "RequireAdmin")]
-        [HttpPut("{id}")]
+        [Authorize(Policy = "RequireAdmin")]        
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> Update(int id, ProductUpdateDto dto)
         {
             var result = await service.UpdateAsync(id, dto);
@@ -48,7 +42,7 @@ namespace ShopOnline.Api.Controllers
         }
 
         [Authorize(Policy = "RequireAdmin")]
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await service.DeleteAsync(id);
