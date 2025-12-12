@@ -39,12 +39,15 @@ namespace ShopOnline.IdentityServer.Configuration
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false, // SPA does not use secrets.
                     RedirectUris = { "http://localhost:5173/signin-oidc" },
-                    PostLogoutRedirectUris = { "https://localhost:5173/signout-callback-oidc" },
-                    AllowedCorsOrigins = { "http://localhost:5173" },                    
-                    AllowedScopes = { "openid", "profile", "shop_online_api" },
+                    PostLogoutRedirectUris = { "http://localhost:5173/signout-callback-oidc" },
+                    AllowedCorsOrigins = { "http://localhost:5173" },
+                    AllowedScopes = { "openid", "profile", "shop_online_api", "roles" },
                     RequirePkce = true,
                     AllowAccessTokensViaBrowser = true,
-                    RequireConsent = false
+                    RequireConsent = false,
+                    AllowPlainTextPkce = false,
+                    AllowOfflineAccess = true,
+                    AlwaysIncludeUserClaimsInIdToken = true
                 }
 
             ];

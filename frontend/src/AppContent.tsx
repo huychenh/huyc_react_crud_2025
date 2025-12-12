@@ -53,6 +53,10 @@ export default function AppContent() {
 
   useEffect(() => {
     userManager.getUser().then(oidcUser => {
+      console.log("OIDC user claims:");
+      console.log(oidcUser?.profile);      // id_token claims
+      console.log(oidcUser?.access_token); // role in JWT
+
       if (oidcUser && !oidcUser.expired) {
         setUser({
           name: oidcUser.profile.name || oidcUser.profile.preferred_username || "User",
@@ -61,6 +65,33 @@ export default function AppContent() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    userManager.getUser().then(oidcUser => {
+      console.log("OIDC user claims:", oidcUser?.profile);
+
+      if (oidcUser && !oidcUser.expired) {
+
+        const rawRole = oidcUser.profile[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ];
+
+        let role: "admin" | "user" = "user"; // default
+        if (typeof rawRole === "string") {
+          const normalized = rawRole.toLowerCase();
+
+          if (normalized === "admin") role = "admin";
+          if (normalized === "user") role = "user";
+        }
+
+        setUser({
+          name: oidcUser.profile.name || oidcUser.profile.preferred_username || "User",
+          role
+        });
+      }
+    });
+  }, []);
+
 
   return (
     <>
