@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityModel;
+using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Identity;
 using ShopOnline.IdentityServer.Models;
@@ -18,30 +19,22 @@ namespace ShopOnline.IdentityServer.Configuration
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             var user = await _userManager.GetUserAsync(context.Subject);
-            if (user == null)
-                return;
+            if (user == null) return;
 
             var claims = new List<Claim>
             {
-                new Claim("sub", user.Id),
-                new Claim("name", user.FullName ?? user.UserName ?? ""),
-                new Claim("email", user.Email ?? "")
+                new(JwtClaimTypes.Subject, user.Id),
+                new(JwtClaimTypes.Name, user.FullName ?? user.UserName ?? ""),
+                new(JwtClaimTypes.Email, user.Email ?? "")
             };
 
-            // Get roles
             var roles = await _userManager.GetRolesAsync(user);
-            foreach (var role in roles)
+            foreach (var r in roles)
             {
-                // Add both claims: "role" and ClaimTypes.Role
-                claims.Add(new Claim("role", role));
-                claims.Add(new Claim(ClaimTypes.Role, role));
+                claims.Add(new Claim(JwtClaimTypes.Role, r));
+                claims.Add(new Claim(ClaimTypes.Role, r));
             }
-
-            var requestedClaims = context.RequestedClaimTypes;
-
-            context.IssuedClaims.AddRange(
-                claims.Where(c => requestedClaims.Contains(c.Type))
-            );
+            context.IssuedClaims.AddRange(claims);
         }
 
         public async Task IsActiveAsync(IsActiveContext context)

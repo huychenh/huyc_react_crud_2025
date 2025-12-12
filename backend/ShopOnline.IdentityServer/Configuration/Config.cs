@@ -43,7 +43,8 @@ namespace ShopOnline.IdentityServer.Configuration
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
                     AllowPlainTextPkce = false,
-                    AllowOfflineAccess = true
+                    AllowOfflineAccess = true,
+                    AlwaysIncludeUserClaimsInIdToken = true
                 }
 
             ];
