@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ShopOnline.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitializeApi : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,8 +60,8 @@ namespace ShopOnline.Api.Migrations
                 columns: new[] { "Id", "CreatedDate", "Email", "FirstName", "LastName", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 12, 11, 7, 57, 51, 125, DateTimeKind.Utc).AddTicks(6788), "emily.johnson@x.dummyjson.com", "Emily", "Johnson", new DateTime(2025, 12, 11, 7, 57, 51, 125, DateTimeKind.Utc).AddTicks(6789) },
-                    { 2, new DateTime(2025, 12, 11, 7, 57, 51, 125, DateTimeKind.Utc).AddTicks(6791), "michael.williams@x.dummyjson.com", "Michael", "Williams", new DateTime(2025, 12, 11, 7, 57, 51, 125, DateTimeKind.Utc).AddTicks(6791) }
+                    { 1, new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3547), "emily.johnson@x.dummyjson.com", "Emily", "Johnson", new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3548) },
+                    { 2, new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3549), "michael.williams@x.dummyjson.com", "Michael", "Williams", new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3550) }
                 });
         }
 

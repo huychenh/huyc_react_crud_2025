@@ -97,6 +97,9 @@ namespace ShopOnline.IdentityServer.Controllers
 
             if (result.Succeeded)
             {
+                //Assign roles
+                await _userManager.AddToRoleAsync(user, "User");
+
                 await _signInManager.SignInAsync(user, isPersistent: false);
 
                 if (_interaction.IsValidReturnUrl(model.ReturnUrl))

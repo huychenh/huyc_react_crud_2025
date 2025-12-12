@@ -5,8 +5,6 @@ VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopOnline.Api", "ShopOnlineApi\ShopOnline.Api.csproj", "{D5EBA452-2537-49AD-9BA3-0C9B842BA2C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopOnlineApi.Tests", "ShopOnlineApi.Tests\ShopOnlineApi.Tests.csproj", "{534F04A7-2F31-8C6B-53BE-E5F9C835FB13}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopOnline.IdentityServer", "ShopOnline.IdentityServer\ShopOnline.IdentityServer.csproj", "{6C8F0103-C2EE-4A1A-AC36-6EC55D26B33B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopOnline.Common", "ShopOnline.Common\ShopOnline.Common.csproj", "{FD2F826D-7F8D-4D52-997D-3394CE190D69}"
@@ -23,10 +21,6 @@ Global
 		{D5EBA452-2537-49AD-9BA3-0C9B842BA2C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5EBA452-2537-49AD-9BA3-0C9B842BA2C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5EBA452-2537-49AD-9BA3-0C9B842BA2C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{534F04A7-2F31-8C6B-53BE-E5F9C835FB13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{534F04A7-2F31-8C6B-53BE-E5F9C835FB13}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{534F04A7-2F31-8C6B-53BE-E5F9C835FB13}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{534F04A7-2F31-8C6B-53BE-E5F9C835FB13}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C8F0103-C2EE-4A1A-AC36-6EC55D26B33B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C8F0103-C2EE-4A1A-AC36-6EC55D26B33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C8F0103-C2EE-4A1A-AC36-6EC55D26B33B}.Release|Any CPU.ActiveCfg = Release|Any CPU

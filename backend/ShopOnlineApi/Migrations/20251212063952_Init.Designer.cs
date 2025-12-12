@@ -12,8 +12,8 @@ using ShopOnline.Api.Data;
 namespace ShopOnline.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251211075751_InitializeApi")]
-    partial class InitializeApi
+    [Migration("20251212063952_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,20 +103,20 @@ namespace ShopOnline.Api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2025, 12, 11, 7, 57, 51, 125, DateTimeKind.Utc).AddTicks(6788),
+                            CreatedDate = new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3547),
                             Email = "emily.johnson@x.dummyjson.com",
                             FirstName = "Emily",
                             LastName = "Johnson",
-                            UpdatedDate = new DateTime(2025, 12, 11, 7, 57, 51, 125, DateTimeKind.Utc).AddTicks(6789)
+                            UpdatedDate = new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3548)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2025, 12, 11, 7, 57, 51, 125, DateTimeKind.Utc).AddTicks(6791),
+                            CreatedDate = new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3549),
                             Email = "michael.williams@x.dummyjson.com",
                             FirstName = "Michael",
                             LastName = "Williams",
-                            UpdatedDate = new DateTime(2025, 12, 11, 7, 57, 51, 125, DateTimeKind.Utc).AddTicks(6791)
+                            UpdatedDate = new DateTime(2025, 12, 12, 6, 39, 52, 32, DateTimeKind.Utc).AddTicks(3550)
                         });
                 });
 #pragma warning restore 612, 618
