@@ -27,13 +27,14 @@ builder.Services.AddAuthentication(options =>
     options.Scope.Add("shop_online_api");
     options.Scope.Add("roles");
 
-    options.ClaimActions.MapJsonKey("name", "name");
+    //options.ClaimActions.MapJsonKey("name", "name");
+    options.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
     options.ClaimActions.MapUniqueJsonKey(ClaimTypes.Role, "role");
 
 
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        NameClaimType = "name",
+        NameClaimType = ClaimTypes.Name,
         RoleClaimType = ClaimTypes.Role
     };
 });

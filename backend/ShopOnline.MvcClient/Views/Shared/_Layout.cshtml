@@ -27,14 +27,15 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav">                        
                         @if (User.Identity.IsAuthenticated)
                         {
-                            var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "Unknown";
+                            var name = User.Claims.FirstOrDefault(c => c.Type == "name")?.Value ?? "Unknown";
+                            var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "Unknown";                            
 
                             <li class="nav-item">
                                 <span class="nav-link text-dark">
-                                    Hello, <strong>@User.Identity.Name (@role) </strong>
+                                    Hello, <strong>@name (@role) </strong>
                                 </span>
                             </li>
 

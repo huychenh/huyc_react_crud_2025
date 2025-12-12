@@ -23,20 +23,25 @@ namespace ShopOnline.IdentityServer.Configuration
 
             var claims = new List<Claim>
             {
-                new(ClaimTypes.Name, user.UserName ?? ""),
+                new Claim("sub", user.Id),
                 new Claim("name", user.FullName ?? user.UserName ?? ""),
-                new Claim("email", user.Email ?? ""),
-                new Claim("sub", user.Id ?? "")                
+                new Claim("email", user.Email ?? "")
             };
 
-            // Get role from Identity
+            // Get roles
             var roles = await _userManager.GetRolesAsync(user);
             foreach (var role in roles)
             {
-                claims.Add(new Claim(ClaimTypes.Role, role));                
+                // Add both claims: "role" and ClaimTypes.Role
+                claims.Add(new Claim("role", role));
+                claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            context.IssuedClaims.AddRange(claims);
+            var requestedClaims = context.RequestedClaimTypes;
+
+            context.IssuedClaims.AddRange(
+                claims.Where(c => requestedClaims.Contains(c.Type))
+            );
         }
 
         public async Task IsActiveAsync(IsActiveContext context)

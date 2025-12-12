@@ -27,10 +27,7 @@ namespace ShopOnline.IdentityServer.Configuration
                     PostLogoutRedirectUris = { "https://localhost:7068/signout-callback-oidc" },
                     AllowedScopes = { "openid", "profile", "shop_online_api", "roles" },
                     RequirePkce = true,
-                    AllowPlainTextPkce = false,
-                    AllowAccessTokensViaBrowser = true,
-                    AllowOfflineAccess = true,
-                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AllowPlainTextPkce = false,                    
                     RequireConsent = false
                 },
                 new Client
@@ -41,13 +38,12 @@ namespace ShopOnline.IdentityServer.Configuration
                     RedirectUris = { "http://localhost:5173/signin-oidc" },
                     PostLogoutRedirectUris = { "http://localhost:5173/signout-callback-oidc" },
                     AllowedCorsOrigins = { "http://localhost:5173" },
-                    AllowedScopes = { "openid", "profile", "shop_online_api", "roles" },
+                    AllowedScopes = { "openid", "profile", "shop_online_api", "roles", "offline_access" },
                     RequirePkce = true,
                     AllowAccessTokensViaBrowser = true,
                     RequireConsent = false,
                     AllowPlainTextPkce = false,
-                    AllowOfflineAccess = true,
-                    AlwaysIncludeUserClaimsInIdToken = true
+                    AllowOfflineAccess = true
                 }
 
             ];

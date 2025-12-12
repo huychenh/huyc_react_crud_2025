@@ -14,16 +14,16 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-// Config Google Login
+// Google external login
 builder.Services.AddAuthentication()
-    .AddGoogle("Google", options =>
+    .AddGoogle(options =>
     {
         options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-        options.ClientId = builder.Configuration["Authentication:Google:ClientId"] ?? string.Empty;
-        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"] ?? string.Empty;
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
     });
 
-// Add IdentityServer
+// IdentityServer
 builder.Services.AddIdentityServer()
     .AddAspNetIdentity<AppUser>()
     .AddInMemoryClients(Config.Clients)
@@ -32,44 +32,20 @@ builder.Services.AddIdentityServer()
     .AddInMemoryApiResources(Config.ApiResources)
     .AddDeveloperSigningCredential();
 
-
 builder.Services.AddTransient<IProfileService, CustomProfileService>();
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
-
-
-builder.Services.AddAuthentication("Cookies").AddCookie("Cookies");
 
 var app = builder.Build();
 
-// --- Seed Data ---
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    await SeedData.InitializeAsync(services);
-}
-// ------------------
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
-app.UseAuthentication();
 app.UseIdentityServer();
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapDefaultControllerRoute();
 
 app.Run();
