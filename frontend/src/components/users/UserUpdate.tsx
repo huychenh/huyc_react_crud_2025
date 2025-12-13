@@ -1,16 +1,24 @@
 import { useState, useEffect } from "react";
 import type { User } from "../../types/user";
-
 import type { UserUpdateProps } from "../../interfaces/user-update-props";
 import "./User.css";
 import { GET_USER_BY_ID_URL, UPDATE_USER_URL } from "../../api/endpoints";
 import { userManager } from "../../authentication/auth-service";
+import type { UserForm } from "../../types/user-form";
 
-export default function UserUpdate({ userId, onClose, onSuccess }: UserUpdateProps) {
+export default function UserUpdate({
+  userId,
+  onClose,
+  onSuccess,
+}: UserUpdateProps) {
   const [user, setUser] = useState<User | null>(null);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+
+  const [userForm, setUserForm] = useState<UserForm>({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,25 +29,29 @@ export default function UserUpdate({ userId, onClose, onSuccess }: UserUpdatePro
     setLoading(true);
 
     fetch(GET_USER_BY_ID_URL(userId))
-      .then(res => {
+      .then((res) => {
         if (!res.ok) throw new Error("User not found");
         return res.json();
       })
       .then((data: User) => {
         setUser(data);
-        setFirstName(data.firstName);
-        setLastName(data.lastName);
-        setEmail(data.email);
+        setUserForm({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+        });
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
   }, [userId]);
 
-  // Handle update  
+  // Handle update
   const handleUpdateUser = async () => {
+    const { firstName, lastName, email } = userForm;
+
     if (!firstName || !lastName || !email) {
       setError("Please fill in all fields");
       return;
@@ -59,13 +71,9 @@ export default function UserUpdate({ userId, onClose, onSuccess }: UserUpdatePro
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${oidcUser.access_token}`,
+          Authorization: `Bearer ${oidcUser.access_token}`,
         },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-        }),
+        body: JSON.stringify(userForm),
       });
 
       if (!res.ok) {
@@ -90,18 +98,19 @@ export default function UserUpdate({ userId, onClose, onSuccess }: UserUpdatePro
         </div>
 
         {loading && <p className="modal-loading">Processing...</p>}
-        {error && <p className="modal-loading" style={{ color: "red" }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
         {user && (
           <div className="modal-info-wrapper">
-
             {/* FIRST NAME */}
             <div className="modal-info-row">
               <span className="modal-label">First Name:</span>
               <input
                 type="text"
-                value={firstName}
-                onChange={e => setFirstName(e.target.value)}
+                value={userForm.firstName}
+                onChange={(e) =>
+                  setUserForm({ ...userForm, firstName: e.target.value })
+                }
                 className="modal-input"
               />
             </div>
@@ -111,8 +120,10 @@ export default function UserUpdate({ userId, onClose, onSuccess }: UserUpdatePro
               <span className="modal-label">Last Name:</span>
               <input
                 type="text"
-                value={lastName}
-                onChange={e => setLastName(e.target.value)}
+                value={userForm.lastName}
+                onChange={(e) =>
+                  setUserForm({ ...userForm, lastName: e.target.value })
+                }
                 className="modal-input"
               />
             </div>
@@ -122,16 +133,17 @@ export default function UserUpdate({ userId, onClose, onSuccess }: UserUpdatePro
               <span className="modal-label">Email:</span>
               <input
                 type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
+                value={userForm.email}
+                onChange={(e) =>
+                  setUserForm({ ...userForm, email: e.target.value })
+                }
                 className="modal-input"
               />
             </div>
-
           </div>
         )}
 
-        <div style={{ padding: "0 20px 20px 20px" }}>
+        <div style={{ padding: "0 20px 20px" }}>
           {user && (
             <button
               className="modal-button"
