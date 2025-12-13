@@ -4,6 +4,7 @@ import type { User } from "../../types/user";
 import type { UserDeleteProps } from "../../interfaces/user-delete-props";
 import "./User.css";
 import { DELETE_USER_URL, GET_USER_BY_ID_URL } from "../../api/endpoints";
+import { userManager } from "../../authentication/auth-service";
 
 export default function UserDelete({ userId, onClose, onSuccess }: UserDeleteProps) {
     const [user, setUser] = useState<User | null>(null);
@@ -31,28 +32,38 @@ export default function UserDelete({ userId, onClose, onSuccess }: UserDeletePro
             });
     }, [userId]);
 
-    const handleDeleteUser = () => {
+    const handleDeleteUser = async () => {
         if (!userId) return;
 
         setLoading(true);
         setError(null);
 
-        fetch(DELETE_USER_URL(userId), { method: "DELETE" })
-            .then(res => {
-                if (!res.ok)
-                    throw new Error("User not found or cannot delete");
+        try {
+            const oidcUser = await userManager.getUser();
 
-                return res.text();
-            })
-            .then(() => {
-                if (onSuccess) onSuccess(); // refresh + info message
-                onClose();                  // close modal
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(err.message);
-                setLoading(false);
+            if (!oidcUser || oidcUser.expired) {
+                throw new Error("User not authenticated");
+            }
+
+            const res = await fetch(DELETE_USER_URL(userId), {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${oidcUser.access_token}`,
+                },
             });
+
+            if (!res.ok) {
+                const msg = await res.text();
+                throw new Error(msg || "User not found or cannot delete");
+            }
+
+            onSuccess?.(); // refresh + info message
+            onClose();     // close modal
+        } catch (err: any) {
+            setError(err.message || "Error deleting user");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

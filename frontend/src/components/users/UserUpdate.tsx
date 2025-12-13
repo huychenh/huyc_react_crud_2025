@@ -4,6 +4,7 @@ import type { User } from "../../types/user";
 import type { UserUpdateProps } from "../../interfaces/user-update-props";
 import "./User.css";
 import { GET_USER_BY_ID_URL, UPDATE_USER_URL } from "../../api/endpoints";
+import { userManager } from "../../authentication/auth-service";
 
 export default function UserUpdate({ userId, onClose, onSuccess }: UserUpdateProps) {
   const [user, setUser] = useState<User | null>(null);
@@ -37,8 +38,8 @@ export default function UserUpdate({ userId, onClose, onSuccess }: UserUpdatePro
       });
   }, [userId]);
 
-  // Handle update
-  const handleUpdateUser = () => {
+  // Handle update  
+  const handleUpdateUser = async () => {
     if (!firstName || !lastName || !email) {
       setError("Please fill in all fields");
       return;
@@ -47,28 +48,38 @@ export default function UserUpdate({ userId, onClose, onSuccess }: UserUpdatePro
     setLoading(true);
     setError(null);
 
-    fetch(UPDATE_USER_URL(userId), {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        email
-      }),
-    })
-      .then(res => {
-        if (!res.ok) throw new Error("Error updating user");
-        return null;
-      })
-      .then(() => {
-        onSuccess?.();
-        onClose();
-        setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
-        setLoading(false);
+    try {
+      const oidcUser = await userManager.getUser();
+
+      if (!oidcUser || oidcUser.expired) {
+        throw new Error("User not authenticated");
+      }
+
+      const res = await fetch(UPDATE_USER_URL(userId), {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${oidcUser.access_token}`,
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+        }),
       });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg || "Error updating user");
+      }
+
+      onSuccess?.();
+      onClose();
+    } catch (err: any) {
+      setError(err.message || "Error updating user");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
