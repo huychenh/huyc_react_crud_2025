@@ -23,3 +23,6 @@ zbackup/2025-12-12/backend/ShopOnlineApi.Tests/bin/
 zbackup/2025-12-12/backend/ShopOnlineApi.Tests/obj/
 zbackup/2025-12-12/backend/ShopOnlineApi/obj/
 backend/ShopOnline.IdentityServer/keys/is-signing-key-AA9340D01B10515C391C801F8B438038.json
+AppSolution2026/api_net_core/.vs/
+AppSolution2026/api_net_core/ShopOnline.IdentityServer/keys/is-signing-key-2D3265B57D62810154801E6BB8E5FE98.json
+AppSolution2026/api_net_core/ShopOnline.IdentityServer/keys/is-signing-key-9344E39D8D8358C379C63C54E68627DA.json
